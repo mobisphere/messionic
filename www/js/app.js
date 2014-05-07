@@ -1,69 +1,67 @@
 // Ionic Starter App
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
-// "starter" is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of "requires"
-// "starter.services" is found in services.js
-// "starter.controllers" is found in controllers.js
-angular.module("starter", ["ionic", "starter.services", "starter.controllers"])
+// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// the 2nd parameter is an array of 'requires'
+// 'starter.controllers' is found in controllers.js
+angular.module('starter', ['ionic', 'starter.controllers'])
 
+.run(function($ionicPlatform) {
+  $ionicPlatform.ready(function() {
+    if(window.StatusBar) {
+      // org.apache.cordova.statusbar required
+      StatusBar.styleDefault();
+    }
+  });
+})
 
 .config(function($stateProvider, $urlRouterProvider) {
-
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state"s controller can be found in controllers.js
   $stateProvider
 
-    // setup an abstract state for the tabs directive
-    .state("tab", {
-      url: "/tab",
+    .state('app', {
+      url: "/app",
       abstract: true,
-      templateUrl: "partials/tabs.html"
+      templateUrl: "templates/menu.html",
+      controller: 'AppCtrl'
     })
 
-    // the pet tab has its own child nav-view and history
-    .state("tab.pet-index", {
-      url: "/pets",
+    .state('app.search', {
+      url: "/search",
       views: {
-        "pets-tab": {
-          templateUrl: "partials/pet-index.html",
-          controller: "PetIndexCtrl"
+        'menuContent' :{
+          templateUrl: "templates/search.html"
         }
       }
     })
 
-    .state("tab.pet-detail", {
-      url: "/pet/:petId",
+    .state('app.browse', {
+      url: "/browse",
       views: {
-        "pets-tab": {
-          templateUrl: "partials/pet-detail.html",
-          controller: "PetDetailCtrl"
+        'menuContent' :{
+          templateUrl: "templates/browse.html"
+        }
+      }
+    })
+    .state('app.playlists', {
+      url: "/playlists",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/playlists.html",
+          controller: 'PlaylistsCtrl'
         }
       }
     })
 
-    .state("tab.adopt", {
-      url: "/adopt",
+    .state('app.single', {
+      url: "/playlists/:playlistId",
       views: {
-        "adopt-tab": {
-          templateUrl: "partials/adopt.html"
-        }
-      }
-    })
-
-    .state("tab.about", {
-      url: "/about",
-      views: {
-        "about-tab": {
-          templateUrl: "partials/about.html"
+        'menuContent' :{
+          templateUrl: "templates/playlist.html",
+          controller: 'PlaylistCtrl'
         }
       }
     });
-
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise("/tab/pets");
-
+  $urlRouterProvider.otherwise('/app/playlists');
 });
 
